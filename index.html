@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>yjadhav1 — daily builds</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d1117;
+    --bg-elevated:#161b22;
+    --border:#30363d;
+    --text:#e6edf3;
+    --text-dim:#8b949e;
+    --blue:#58a6ff;
+    --green:#3fb950;
+    --purple:#bc8cff;
+    --amber:#d29922;
+    --mono:'JetBrains Mono', monospace;
+    --sans:'Inter', -apple-system, sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+  }
+  .wrap{max-width:760px; margin:0 auto; padding:0 24px;}
+
+  /* ---------- header ---------- */
+  header{
+    padding:80px 0 56px;
+    border-bottom:1px solid var(--border);
+  }
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--green);
+    margin-bottom:16px;
+  }
+  .eyebrow::before{content:"$ "; color:var(--text-dim);}
+  h1{
+    font-family:var(--mono);
+    font-size:clamp(28px, 5vw, 40px);
+    font-weight:700;
+    letter-spacing:-0.02em;
+    margin-bottom:14px;
+  }
+  h1 .who{color:var(--blue);}
+  header p{
+    color:var(--text-dim);
+    font-size:16px;
+    max-width:520px;
+    margin-bottom:24px;
+  }
+  .links{display:flex; gap:16px; flex-wrap:wrap;}
+  .links a{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--text);
+    text-decoration:none;
+    border:1px solid var(--border);
+    padding:7px 14px;
+    border-radius:6px;
+    transition:border-color .15s, color .15s;
+  }
+  .links a:hover{border-color:var(--blue); color:var(--blue);}
+
+  /* ---------- stats strip ---------- */
+  .stats{
+    display:flex;
+    gap:32px;
+    padding:28px 0;
+    border-bottom:1px solid var(--border);
+    flex-wrap:wrap;
+  }
+  .stat-num{
+    font-family:var(--mono);
+    font-size:22px;
+    font-weight:700;
+    color:var(--text);
+  }
+  .stat-label{
+    font-size:12px;
+    color:var(--text-dim);
+    text-transform:uppercase;
+    letter-spacing:.04em;
+  }
+
+  /* ---------- commit log ---------- */
+  section.log{padding:56px 0 40px;}
+  .log-title{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--text-dim);
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    margin-bottom:32px;
+  }
+  .commits{position:relative;}
+  .commits::before{
+    content:"";
+    position:absolute;
+    left:9px;
+    top:8px;
+    bottom:8px;
+    width:2px;
+    background:var(--border);
+  }
+  .commit{
+    position:relative;
+    padding-left:40px;
+    padding-bottom:36px;
+  }
+  .commit:last-child{padding-bottom:0;}
+  .node{
+    position:absolute;
+    left:0;
+    top:4px;
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    background:var(--bg-elevated);
+    border:2px solid var(--green);
+    z-index:1;
+  }
+  .commit.pinned .node{border-color:var(--amber);}
+  .commit-head{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:6px;
+  }
+  .hash{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--purple);
+  }
+  .date{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--text-dim);
+  }
+  .commit-msg{
+    font-size:16px;
+    font-weight:500;
+    color:var(--text);
+    margin-bottom:8px;
+  }
+  .commit-desc{
+    font-size:14px;
+    color:var(--text-dim);
+    margin-bottom:12px;
+    max-width:560px;
+  }
+  .tags{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px;}
+  .tag{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--blue);
+    background:rgba(88,166,255,0.1);
+    border:1px solid rgba(88,166,255,0.25);
+    padding:3px 8px;
+    border-radius:4px;
+  }
+  .commit-link{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--green);
+    text-decoration:none;
+  }
+  .commit-link:hover{text-decoration:underline;}
+  .commit-link::after{content:" →";}
+
+  .empty-note{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--text-dim);
+    padding-left:40px;
+  }
+
+  footer{
+    border-top:1px solid var(--border);
+    padding:40px 0 60px;
+    color:var(--text-dim);
+    font-size:13px;
+    font-family:var(--mono);
+  }
+
+  @media (max-width:600px){
+    header{padding:56px 0 40px;}
+    .stats{gap:24px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">whoami</div>
+    <h1>Yogesh Jadhav <span class="who">/ building daily</span></h1>
+    <p>Learning AI fundamentals one small project at a time. Every entry below is a real commit — no polish, just daily reps.</p>
+    <div class="links">
+      <a href="https://github.com/yjadhav1" target="_blank" rel="noopener">github.com/yjadhav1</a>
+      <a href="mailto:you@example.com">email</a>
+      <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener">linkedin</a>
+    </div>
+  </header>
+
+  <div class="stats" id="stats"></div>
+
+  <section class="log">
+    <div class="log-title">// build log</div>
+    <div class="commits" id="commits"></div>
+  </section>
+
+  <footer>
+    generated with a git log --graph you're actually living
+  </footer>
+
+</div>
+
+<script>
+  // Add a new object here each day you ship something. That's the only
+  // edit you need to make — everything above renders itself.
+  const builds = [
+    {
+      date: "2026-07-13",
+      hash: "a1b2c3d",
+      title: "Set up the daily build log",
+      desc: "First commit. Scaffolded this page and the repo that will track every small AI project going forward.",
+      tags: ["meta", "github-pages"],
+      link: "https://github.com/yjadhav1/yjadhav1.github.io",
+      pinned: true
+    }
+    // {
+    //   date: "2026-07-14",
+    //   hash: "e4f5a6b",
+    //   title: "Built a tiny text classifier",
+    //   desc: "Logistic regression from scratch on a toy dataset, no libraries.",
+    //   tags: ["python", "ml-basics"],
+    //   link: "https://github.com/yjadhav1/day-2-classifier"
+    // },
+  ];
+
+  const commitsEl = document.getElementById('commits');
+  const statsEl = document.getElementById('stats');
+
+  if (builds.length === 0) {
+    commitsEl.innerHTML = '<p class="empty-note">// no commits yet — add your first entry to the builds array in index.html</p>';
+  } else {
+    const sorted = [...builds].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    commitsEl.innerHTML = sorted.map(b => `
+      <div class="commit${b.pinned ? ' pinned' : ''}">
+        <div class="node"></div>
+        <div class="commit-head">
+          <span class="hash">${b.hash}</span>
+          <span class="date">${b.date}</span>
+        </div>
+        <div class="commit-msg">${b.title}</div>
+        ${b.desc ? `<div class="commit-desc">${b.desc}</div>` : ''}
+        ${b.tags && b.tags.length ? `<div class="tags">${b.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>` : ''}
+        ${b.link ? `<a class="commit-link" href="${b.link}" target="_blank" rel="noopener">view repo</a>` : ''}
+      </div>
+    `).join('');
+
+    const days = sorted.length;
+    const start = new Date(sorted[sorted.length - 1].date);
+    const now = new Date();
+    const streakDays = Math.floor((now - start) / (1000 * 60 * 60 * 24)) + 1;
+
+    statsEl.innerHTML = `
+      <div><div class="stat-num">${days}</div><div class="stat-label">builds shipped</div></div>
+      <div><div class="stat-num">${streakDays}</div><div class="stat-label">days since start</div></div>
+    `;
+  }
+</script>
+
+</body>
+</html>
